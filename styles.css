@@ -1,0 +1,510 @@
+ /* Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* Variáveis das cores */
+    --pinkNeon: #f82d97;
+    --greenNeon: #2ef8a0;
+    --whitePure: #fff;
+    --yellowNeon: #ffff00;
+    --redNeon: #ff0534;
+    --blackPure: #000;
+    --greyMedium: #888;
+
+    /* Variáveis das fontes */
+    --fontTitle: Bungee Outline, cursive;
+    --fontSubtitle: Bungee, sans-serif;
+    --fontBody: Roboto, sans-serif;
+    --fontTimer: Audiowide, sans-serif;
+    --fontScore: Audiowide, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--blackPure);
+    cursor: none;
+    font-family: var(--fontBody);
+}
+
+/* Canvas do jogo */
+#gameCanvas {
+    display: none;
+    background-color: var(--blackPure);
+}
+
+/* HUD do jogo */
+#timer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--whitePure);
+    font-family: var(--fontTimer);
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--whitePure);
+    font-family: var(--fontScore);
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Menu principal */
+#menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    cursor: default;
+}
+
+#menu h1 {
+    font-family: var(--fontTitle);
+    color: var(--greenNeon);
+    font-size: 4rem;
+    text-shadow: 0 0 10px var(--greenNeon);
+    margin-bottom: 0.5rem;
+}
+
+#menu .subtitle {
+    font-family: var(--fontBody);
+    color: var(--greenNeon);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Seletor de modo de jogo */
+.game-mode-selector {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.game-mode {
+    background: none;
+    border: 2px solid var(--greenNeon);
+    color: var(--greenNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.game-mode:hover {
+    background-color: rgba(46, 248, 160, 0.2);
+}
+
+.game-mode.active {
+    background-color: var(--greenNeon);
+    color: var(--blackPure);
+    box-shadow: 0 0 15px var(--greenNeon);
+}
+
+/* Botões */
+#startButton {
+    background: none;
+    border: 3px solid var(--pinkNeon);
+    color: var(--pinkNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px var(--pinkNeon);
+    margin-bottom: 2rem;
+}
+
+#startButton:hover {
+    background-color: var(--pinkNeon);
+    color: var(--blackPure);
+    box-shadow: 0 0 30px var(--pinkNeon);
+}
+
+/* Instruções */
+.instructions {
+    color: var(--whitePure);
+    margin-top: 1rem;
+    text-align: center;
+    max-width: 600px;
+    font-size: 1.2rem;
+}
+
+.instructions p {
+    margin: 0.5rem 0;
+}
+
+.mode-name {
+    color: var(--greenNeon);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: var(--fontSubtitle);
+    font-size: 1.5rem;
+}
+
+/* Créditos */
+#creditsButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--greyMedium);
+    font-family: var(--fontBody);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#creditsButton:hover {
+    color: var(--greenNeon);
+}
+
+/* Tela de Game Over */
+#gameOver {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    cursor: default;
+}
+
+#gameOver h2 {
+    font-family: 'Bungee', sans-serif;
+    color: var(--pinkNeon);
+    font-size: 3rem;
+    text-shadow: 0 0 10px var(--pinkNeon);
+    margin-bottom: 1rem;
+}
+
+.final-score {
+    font-size: 2rem;
+    color: var(--greenNeon);
+    margin-bottom: 0.5rem;
+}
+
+.high-score {
+    font-size: 1.2rem;
+    color: var(--greyMedium);
+    margin-bottom: 2rem;
+    color: var(--yellowNeon);
+}
+
+#restartButton {
+    background: none;
+    border: 3px solid var(--greenNeon);
+    color: var(--greenNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.2rem;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px var(--greenNeon);
+}
+
+#restartButton:hover {
+    background-color: var(--greenNeon);
+    color: var(--blackPure);
+    box-shadow: 0 0 30px var(--greenNeon);
+}
+
+#restartButton {
+    background: none;
+    border: 3px solid var(--greenNeon);
+    color: var(--greenNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.2rem;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px var(--greenNeon);
+}
+
+#restartButton:hover {
+    background-color: var(--greenNeon);
+    color: var(--blackPure);
+    box-shadow: 0 0 30px var(--greenNeon);
+}
+
+/* Tela de créditos */
+#creditsScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+    cursor: default;
+}
+
+#creditsScreen h2 {
+    font-family: 'Bungee', sans-serif;
+    color: var(--greenNeon);
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+#creditsScreen p {
+    color: var(--whitePure);
+    max-width: 600px;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.linkPageCredits,
+.linkPageCredits:hover,
+.linkPageCredits:visited,
+.linkPageCredits:active,
+.linkPageCredits:focus {
+    color: var(--pinkNeon);
+    text-decoration: none;
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    transition: color 0.3s;
+}
+
+#backButton {
+    background: none;
+    border: 2px solid var(--pinkNeon);
+    color: var(--pinkNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1rem;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 2rem;
+}
+
+#backButton:hover {
+    background-color: var(--pinkNeon);
+    color: var(--blackPure);
+}
+
+/* Tela de pausa */
+#pauseScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 150;
+    cursor: default;
+}
+
+#pauseScreen h2 {
+    font-family: 'Bungee', sans-serif;
+    color: var(--yellowNeon);
+    font-size: 3rem;
+    text-shadow: 0 0 10px var(--yellowNeon);
+    margin-bottom: 2rem;
+}
+
+#menuButton {
+    background: none;
+    border: 3px solid var(--pinkNeon);
+    color: var(--pinkNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1.2rem;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 15px var(--pinkNeon);
+    margin-bottom: 1rem;
+}
+
+#menuButton:hover {
+    background-color: var(--pinkNeon);
+    color: var(--blackPure);
+    box-shadow: 0 0 30px var(--pinkNeon);
+}
+
+#highScoreDisplay {
+    color: var(--greenNeon);
+    font-family: var(--fontSubtitle);
+    font-size: 1.4rem;
+    margin-left: 20px;
+}
+
+.resume-text {
+    color: var(--greyMedium);
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+/* Animação de pulsar para o timer */
+@keyframes pulseTimer {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.timer-pulse {
+    animation: pulseTimer 0.5s infinite ease-in-out;
+}
+/* Animação de pulsar para o score */
+@keyframes pulseScore {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.timer-color-timeout {
+    animation: colorTimeOut 10s infinite ease-in-out;
+}
+
+@keyframes colorTimeOut {
+    0% { color: var(--yellowNeon); }
+    50% { color: var(--redNeon); }
+    100% { color: var(--redNeon); }
+}
+
+.score-pulse {
+    animation: pulseScore 0.5s infinite ease-in-out;
+    color: var(--yellowNeon) !important;
+}
+
+/* Botão de configurações */
+#settingsButton {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: var(--greyMedium);
+    font-family: var(--fontBody);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#settingsButton:hover {
+    color: var(--greenNeon);
+}
+
+/* Tela de configurações */
+#settingsScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 300;
+    cursor: default;
+}
+
+#settingsScreen h2 {
+    font-family: 'Bungee', sans-serif;
+    color: var(--greenNeon);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+#settingsScreen p {
+    color: var(--whitePure);
+    max-width: 600px;
+    text-align: center;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+#resetScoresButton {
+    background: none;
+    border: 2px solid var(--redNeon);
+    color: var(--redNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1rem;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+}
+
+#resetScoresButton:hover {
+    background-color: var(--redNeon);
+    color: var(--blackPure);
+}
+
+#backButton, #backToMenuButton, #settingsBackButton {
+    background: none;
+    border: 2px solid var(--pinkNeon);
+    color: var(--pinkNeon);
+    font-family: 'Bungee', sans-serif;
+    font-size: 1rem;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 2rem;
+}
+
+#backButton:hover, #backToMenuButton:hover, #settingsBackButton:hover {
+    background-color: var(--pinkNeon);
+    color: var(--blackPure);
+}

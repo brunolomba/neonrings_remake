@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Rings</title>
+
+    <!-- Favicon padrão -->
+    <link rel="icon" href="./assets/images/favicon.png" type="image/png">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Menu Principal -->
+    <div id="menu">
+        <h1>NEON RINGS</h1>
+        <div class="subtitle">Desafie seus reflexos neste jogo de ação CYBERPUNK!</div>
+
+        <div class="game-mode-selector">
+            <button class="game-mode active" data-mode="arcade">Arcade</button>
+            <button class="game-mode" data-mode="survival">Survival</button>
+        </div>
+
+        <button id="startButton">INICIAR JOGO</button>
+
+        <div class="instructions" id="instructions">
+            <span class="mode-name">Modo arcade </span><span id="highScoreDisplay">Score</span>
+            <p>Colete anéis verdes em 60 segundos</p>
+            <p>Evite os anéis rosa que reduzem sua pontuação</p>
+            <p>Mova o mouse para controlar o anel branco</p>
+        </div>
+
+        <button id="creditsButton">CRÉDITOS</button>
+        <button id="settingsButton">CONFIGURAÇÕES</button>
+    </div>
+
+    <!-- Tela de Pausa -->
+    <div id="pauseScreen">
+        <h2>JOGO PAUSADO</h2>
+        <button id="menuButton">SAIR PARA MENU</button>
+        <div class="resume-text">ou Pressione ESC para retornar ao Jogo</div>
+    </div>
+
+    <!-- Tela de Game Over -->
+    <div id="gameOver">
+        <h2>GAME OVER</h2>
+        <div class="final-score" id="finalScore"></div>
+        <div class="high-score" id="highScore"></div>
+        <button id="restartButton">JOGAR NOVAMENTE</button>
+        <button id="backToMenuButton">SAIR PARA MENU</button>
+    </div>
+
+    <!-- Tela de Créditos -->
+    <div id="creditsScreen">
+        <h2>CRÉDITOS</h2>
+        <p>NEON RINGS</p>
+        <p>Jogo de destreza e concentração com a temática CYBERPUNK.</p>
+        <p><strong>TECNOLOGIAS</strong></p>
+        <p><strong>HTML5</strong>, <strong>CSS3</strong> e <strong>Javascript</strong></p>
+        <p>Efeitos sonoros</p>
+        <p><a href="mixkit.co" class="linkPageCredits">MIXKIT</a></p>
+        <p><strong>© 2025</strong> - Todos os direitos reservados</p>
+        <button id="backButton">VOLTAR</button>
+    </div>
+
+    <!-- Tela de Configurações -->
+    <div id="settingsScreen">
+        <h2>CONFIGURAÇÕES</h2>
+        <p>Aqui você pode gerenciar as configurações do jogo</p>
+
+        <button id="resetScoresButton">RESETAR PLACARES</button>
+        <div id="resetConfirmation" style="color: var(--greenNeon); display: none; margin-top: 10px;">
+            Placar resetado com sucesso!
+        </div>
+
+        <button id="settingsBackButton">VOLTAR</button>
+    </div>
+
+    <!-- Elementos do jogo -->
+    <canvas id="gameCanvas"></canvas>
+    <div id="timer">TIME: 60</div>
+    <div id="score">SCORE: 0</div>
+
+    <!-- Efeitos sonoros -->
+    <audio id="goodSound" src="./assets/sounds/mixkit-sci-fi-positive-notification-266.wav" preload="auto"></audio>
+    <audio id="badSound" src="./assets/sounds/mixkit-sci-fi-error-alert-898.wav" preload="auto"></audio>
+    <audio id="gameOverSound" src="./assets/sounds/mixkit-apocalyptic-stomp-impact-3057.wav" preload="auto"></audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
