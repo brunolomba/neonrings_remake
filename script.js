@@ -1,3 +1,11 @@
+//Senha fraca só para teste.
+const senhaCorreta = "matrix88";
+const senhaInserida = prompt("Digite a senha para acessar esta página:");
+
+if (senhaInserida !== senhaCorreta) {
+    window.location.href = "/"; // Redireciona se errar
+}
+
 // Elementos do DOM
 const menu = document.getElementById('menu');
 const startButton = document.getElementById('startButton');
@@ -147,14 +155,14 @@ resetScoresButton.addEventListener('click', () => {
     // Resetar os placares salvos
     localStorage.removeItem('timeModeHighScore');
     localStorage.removeItem('SurvivalHighScore');
-    
+
     // Atualizar as variáveis locais
     gameState.highScore = 0;
     survivalHighScore = 0;
-    
+
     // Mostrar confirmação
     resetConfirmation.style.display = 'block';
-    
+
     // Esconder a confirmação após 3 segundos
     setTimeout(() => {
         resetConfirmation.style.display = 'none';
@@ -178,23 +186,23 @@ function togglePause() {
         gameState.isPaused = false;
         pauseScreen.style.display = 'none';
         document.body.style.cursor = 'none';
-        
+
         if (currentMode === 'arcade') {
             gameInterval = setInterval(updateTimer, 1000);
         } else {
             gameInterval = setInterval(updateSurvivalTimer, 1000);
         }
-        
+
         draw();
     } else {
         // Pausar
         gameState.isPaused = true;
         pauseScreen.style.display = 'flex';
         document.body.style.cursor = 'default';
-        
+
         clearInterval(gameInterval);
         cancelAnimationFrame(animationFrame);
-        
+
         // Parar efeitos do timer se estiverem ativos
         if (timerBlinkInterval) clearInterval(timerBlinkInterval);
         if (timerPulseInterval) clearInterval(timerPulseInterval);
@@ -208,12 +216,12 @@ function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     let timeString = '';
     if (hrs > 0) timeString += `${hrs.toString().padStart(2, '0')}:`;
     if (mins > 0 || hrs > 0) timeString += `${mins.toString().padStart(2, '0')}:`;
     timeString += `${secs.toString().padStart(2, '0')}`;
-    
+
     return timeString;
 }
 
@@ -221,10 +229,10 @@ function formatTime(seconds) {
 function showGameOver() {
     gameOverSound.play();
     gameOverScreen.style.display = 'flex';
-    
+
     if (currentMode === 'arcade') {
         finalScoreDisplay.textContent = `Pontuação Atual: ${gameState.score}`;
-        
+
         if (gameState.score > gameState.highScore) {
             gameState.highScore = gameState.score;
             localStorage.setItem('timeModeHighScore', gameState.highScore);
@@ -234,7 +242,7 @@ function showGameOver() {
         }
     } else {
         finalScoreDisplay.textContent = `Pontuação Atual: ${gameState.score}`;
-        
+
         if (gameState.score > survivalHighScore) {
             survivalHighScore = gameState.score;
             localStorage.setItem('SurvivalHighScore', survivalHighScore);
@@ -249,13 +257,13 @@ function showGameOver() {
 function startGame() {
     // Esconder o menu
     menu.style.display = 'none';
-    
+
     // Mostrar o canvas
     gameCanvas.style.display = 'block';
-    
+
     // Resetar o cursor
     document.body.style.cursor = 'none';
-    
+
     // Resetar variáveis do jogo
     if (currentMode === 'arcade') {
         gameState.timeLeft = 15;
@@ -270,28 +278,28 @@ function startGame() {
         timerDisplay.textContent = `TIME: ${formatTime(survivalTime)}`;
         timerDisplay.style.color = whitePureValue;
     }
-    
+
     scoreDisplay.textContent = `SCORE: ${gameState.score}`;
     scoreDisplay.classList.remove('score-pulse');
     gameState.gameRunning = true;
     gameState.isPaused = false;
-    
+
     // Limpar arrays de objetos do jogo
     ringsPink.length = 0;
     greenCollected = 0;
-    
+
     // Reposicionar o anel verde
     ringGreen.respawn();
-    
+
     // Iniciar o temporizador
     clearInterval(gameInterval);
-    
+
     if (currentMode === 'arcade') {
         gameInterval = setInterval(updateTimer, 1000);
     } else {
         gameInterval = setInterval(updateSurvivalTimer, 1000);
     }
-    
+
     // Iniciar o loop do jogo
     cancelAnimationFrame(animationFrame);
     draw();
@@ -324,7 +332,7 @@ const ringGreen = {
     color: greenNeonValue,
     glow: greenNeonValue,
     lineWidth: 7,
-    respawn: function() {
+    respawn: function () {
         this.x = Math.random() * (canvas.width - 100) + 50;
         this.y = Math.random() * (canvas.height - 100) + 50;
     }
@@ -351,7 +359,7 @@ window.addEventListener('mousemove', (e) => {
 function updateTimer() {
     if (gameState.timeLeft > 0) {
         gameState.timeLeft--;
-        
+
         // Atualizar cor do timer conforme o tempo diminui
         if (gameState.timeLeft <= 10) {
             if (gameState.timeLeft <= 5) {
@@ -361,7 +369,7 @@ function updateTimer() {
                         timerDisplay.style.color = timerDisplay.style.color === redNeonValue ? 'transparent' : redNeonValue;
                     }, 300); // Piscar mais rápido (300ms em vez de 500ms)
                 }
-                
+
                 // Adicionar classe para animação de pulsação suave
                 timerDisplay.classList.add('timer-pulse');
             } else {
@@ -371,10 +379,10 @@ function updateTimer() {
                 const g = Math.floor(255 - (255 - 153) * progress);
                 const b = Math.floor(0 + (25 * progress));
                 timerDisplay.style.color = `rgb(${r}, ${g}, ${b})`;
-                
+
                 // Remover animações se ativas
                 timerDisplay.classList.remove('timer-pulse');
-                
+
                 if (timerBlinkInterval) {
                     clearInterval(timerBlinkInterval);
                     timerBlinkInterval = null;
@@ -384,7 +392,7 @@ function updateTimer() {
             timerDisplay.style.color = whitePureValue;
             timerDisplay.classList.remove('timer-pulse');
         }
-        
+
         timerDisplay.textContent = `TIME: ${gameState.timeLeft}`;
     } else {
         endGame();
@@ -400,7 +408,7 @@ function updateSurvivalTimer() {
 // Finalizar o jogo
 function endGame(showGameOverScreen = true) {
     gameState.gameRunning = false;
-    
+
     // Limpar efeitos de animação do timer
     timerDisplay.classList.remove('timer-pulse');
     if (timerBlinkInterval) {
@@ -411,21 +419,21 @@ function endGame(showGameOverScreen = true) {
     //  Limpar efeitos animação do score
     scoreDisplay.classList.remove('score-pulse');
     isNewHighScore = false;
-    
+
     if (currentMode === 'arcade') {
         timerDisplay.textContent = "TIME: 0";
     }
-    
+
     // Mostrar tela de game over se necessário
     if (showGameOverScreen) {
         gameOverSound.play();
         showGameOver();
     }
-    
+
     // Limpar intervalos
     clearInterval(gameInterval);
     cancelAnimationFrame(animationFrame);
-    
+
     // Mostrar o cursor novamente
     document.body.style.cursor = 'default';
 }
@@ -448,7 +456,7 @@ function createPinkRing() {
         isHorizontal: greenCollected % 2 === 0,
         direction: 1 // 1 = direita/baixo, -1 = esquerda/cima
     };
-    
+
     if (ringPink.isHorizontal) {
         // Movimento horizontal (altura aleatória)
         ringPink.x = ringPink.radius; // Começar um pouco afastado da borda
@@ -458,7 +466,7 @@ function createPinkRing() {
         ringPink.x = Math.random() * (canvas.width - 100) + 50;
         ringPink.y = ringPink.radius; // Começar um pouco afastado da borda
     }
-    
+
     ringsPink.push(ringPink);
 }
 
@@ -473,7 +481,7 @@ function drawNeonRing(x, y, radius, color, glowColor, lineWidth) {
     ctx.lineWidth = lineWidth;
     ctx.stroke();
     ctx.closePath();
-    
+
     // Resetar sombra para não afetar outros elementos
     ctx.shadowBlur = 0;
 }
@@ -511,39 +519,39 @@ function addScorePulse() {
 // Função principal de desenho
 function draw() {
     if (gameState.isPaused) return;
-    
+
     // Limpar a tela
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Desenhar o Ring Green (alvo)
     drawNeonRing(ringGreen.x, ringGreen.y, ringGreen.radius, ringGreen.color, ringGreen.glow, ringGreen.lineWidth);
-    
+
     // Desenhar Rings Pink (obstáculos)
     for (let i = 0; i < ringsPink.length; i++) {
         const ringPink = ringsPink[i];
-        
+
         // Desenhar o Ring Pink
         drawNeonRing(ringPink.x, ringPink.y, ringPink.radius, ringPink.color, ringPink.glow, ringPink.lineWidth);
-        
+
         // Mover os Rings Pink
         if (ringPink.isHorizontal) {
             ringPink.x += pinkRingSpeed * ringPink.direction;
-            
+
             // Verificar se bateu na parede (horizontal)
-            if ((ringPink.direction > 0 && ringPink.x >= canvas.width - ringPink.radius) || 
+            if ((ringPink.direction > 0 && ringPink.x >= canvas.width - ringPink.radius) ||
                 (ringPink.direction < 0 && ringPink.x <= ringPink.radius)) {
                 ringPink.direction *= -1;
             }
         } else {
             ringPink.y += pinkRingSpeed * ringPink.direction;
-            
+
             // Verificar se bateu na parede (vertical)
-            if ((ringPink.direction > 0 && ringPink.y >= canvas.height - ringPink.radius) || 
+            if ((ringPink.direction > 0 && ringPink.y >= canvas.height - ringPink.radius) ||
                 (ringPink.direction < 0 && ringPink.y <= ringPink.radius)) {
                 ringPink.direction *= -1;
             }
         }
-        
+
         // Verificar colisão com o Ring White
         if (checkCollision(ringWhite, ringPink)) {
             if (currentMode === 'arcade') {
@@ -563,16 +571,16 @@ function draw() {
             }
         }
     }
-    
+
     // Desenhar o Ring White (jogador)
     drawNeonRing(ringWhite.x, ringWhite.y, ringWhite.radius, ringWhite.color, ringWhite.glow, ringWhite.lineWidth);
-    
+
     // Verificar colisão com o Ring Green
     if (checkCollision(ringWhite, ringGreen)) {
         // Ganhar um ponto
         gameState.score++;
         scoreDisplay.textContent = `SCORE: ${gameState.score}`;
-        
+
         // Funcão que verifica o novo recorde
         checkIsNewHighScore();
 
@@ -581,18 +589,18 @@ function draw() {
 
         // Reposicionar o Ring Green
         ringGreen.respawn();
-        
+
         // Criar novo Ring Pink
         createPinkRing();
-        
+
         // Incrementar contador para alternar movimento
         greenCollected++;
-        
+
         // Tocar som positivo
         goodSound.currentTime = 0;
         goodSound.play();
     }
-    
+
     // Continuar o loop de jogo
     if (gameState.gameRunning && !gameState.isPaused) {
         animationFrame = requestAnimationFrame(draw);
@@ -610,7 +618,7 @@ function updateHighScoreDisplay() {
 }
 
 // Atualizar o placar ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Seu código aqui será executado quando o DOM estiver pronto
     updateHighScoreDisplay();
 });
@@ -622,7 +630,7 @@ gameModes.forEach(mode => {
     });
 });
 
-//Verificar códido, acho que não precisa 
+//Verificar códido, acho que não precisa
 // // Atualizar o placar ao iniciar o jogo
 // startButton.addEventListener('click', () => {
 //     updateHighScoreDisplay();
