@@ -75,7 +75,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--blackPure);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -423,7 +423,7 @@ body {
     animation: pulseScore 0.5s infinite ease-in-out;
     color: var(--yellowNeon) !important;
 }
-
+settings
 /* Botão de configurações */
 #settingsButton {
     position: absolute;
@@ -449,7 +449,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: var(--blackPure);
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -471,6 +471,56 @@ body {
     text-align: center;
     margin-bottom: 1rem;
     line-height: 1.5;
+}
+
+#containerInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#timerInput,
+#timerError {
+    width: 50px;
+    margin: 0 15px;
+    padding: 10px;
+    text-align: center;
+    font-size: var(--fontBody);
+    border-radius: 5px;
+    background-color: var(--blackPure);
+}
+
+#timerInput {
+    color: var(--greenNeon);
+    border: 2px solid var(--greenNeon);
+}
+
+#timerError {
+    color: var(--redNeon);
+    border: 2px solid var(--redNeon);
+}
+
+.timerLabel {
+    color: var(--whitePure);
+    font-size: 1rem;
+    display: block;
+}
+
+/* Remoção das setas input number */
+Input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+}
+
+/* Remoção das setas input number */
+Input[type=number] { 
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+#warningInputTimer {
+    color: var(--redNeon);
+    font-size: 0.8rem;
+    margin-top: 1rem;
 }
 
 #resetScoresButton {

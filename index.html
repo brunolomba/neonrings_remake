@@ -70,6 +70,14 @@
         <h2>CONFIGURAÇÕES</h2>
         <p>Aqui você pode gerenciar as configurações do jogo</p>
 
+        <div id="containerInput">
+            <span class="timerLabel">Timer</span>
+            <input id="timerInput" type="number" min="10" max="120" step="5" />
+            <span class="timerLabel">Segs.</span>
+        </div>
+
+        <div id="warningInputTimer">Selecione um valor válido (10 &gt; ~ &lt; 120) para seguir voltar ao menu.
+        </div>
         <button id="resetScoresButton">RESETAR PLACARES</button>
         <div id="resetConfirmation" style="color: var(--greenNeon); display: none; margin-top: 10px;">
             Placar resetado com sucesso!
@@ -77,6 +85,7 @@
 
         <button id="settingsBackButton">VOLTAR</button>
     </div>
+
 
     <!-- Elementos do jogo -->
     <canvas id="gameCanvas"></canvas>
@@ -89,6 +98,7 @@
     <audio id="gameOverSound" src="./assets/sounds/mixkit-apocalyptic-stomp-impact-3057.wav" preload="auto"></audio>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>

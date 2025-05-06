@@ -23,6 +23,7 @@ const pauseScreen = document.getElementById('pauseScreen');
 const menuButton = document.getElementById('menuButton');
 const settingsButton = document.getElementById('settingsButton');
 const settingsScreen = document.getElementById('settingsScreen');
+const timerInput = document.getElementById('timerInput');
 const resetScoresButton = document.getElementById('resetScoresButton');
 const settingsBackButton = document.getElementById('settingsBackButton');
 const resetConfirmation = document.getElementById('resetConfirmation');
@@ -41,7 +42,7 @@ const rootStyles = getComputedStyle(document.documentElement);
 
 // Variáveis do jogo
 const gameState = {
-    timeLeft: 15,
+    timeLeft: localStorage.getItem('timerValue') || 60,
     score: 0,
     highScore: localStorage.getItem('timeModeHighScore') || 0,
     gameRunning: false,
@@ -148,6 +149,25 @@ settingsBackButton.addEventListener('click', () => {
     settingsScreen.style.display = 'none';
     menu.style.display = 'flex';
     resetConfirmation.style.display = 'none';
+});
+
+// Evento para definir o valor do temporizador
+timerInput.addEventListener('change', () => {
+    // Verifica se o valor está fora do intervalo permitido
+    const timerOutOfAllowedRange = timerInput.value < 10 || timerInput.value > 120
+
+    if (timerOutOfAllowedRange) {
+        timerInput.id = "timerError";
+        warningInputTimer.style.display = 'block';
+        settingsBackButton.style.display = 'none';
+    } else {
+        timerInput.id = "timerInput";
+        warningInputTimer.style.display = 'none';
+        settingsBackButton.style.display = 'block';
+    }
+
+    // Salva o valor no localStorage
+    localStorage.setItem('timerValue', timerInput.value);
 });
 
 // Evento do botão resetar placares
@@ -266,7 +286,7 @@ function startGame() {
 
     // Resetar variáveis do jogo
     if (currentMode === 'arcade') {
-        gameState.timeLeft = 15;
+        gameState.timeLeft = localStorage.getItem('timerValue') || 60;
         gameState.score = 0;
         gameState.isNewHighScore = false;
         timerDisplay.textContent = `TIME: ${gameState.timeLeft}`;
@@ -621,6 +641,7 @@ function updateHighScoreDisplay() {
 document.addEventListener('DOMContentLoaded', function () {
     // Seu código aqui será executado quando o DOM estiver pronto
     updateHighScoreDisplay();
+    timerInput.value = localStorage.getItem('timerValue') || 60; // Definir o valor do temporizador no input
 });
 
 // Atualizar o placar ao mudar o modo de jogo
